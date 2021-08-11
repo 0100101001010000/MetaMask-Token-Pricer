@@ -6,4 +6,6 @@ It works fine for now but the following would be nice:
 * Get rid of react create crap
 * Build some tests
 * Extract {ethereum} in MetaMaskControl and rename
+* Pull the contract stuff out of App.js
+* Allow adding of other tokens
 * Pretty up the CSS
