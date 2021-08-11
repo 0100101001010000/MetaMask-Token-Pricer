@@ -12,7 +12,7 @@ It should look something like this:
 (The above is not in anyway an endorsement, do your own research before investing)
 
 
-This will eventually be hosted somewhere.
+Currently hoster [here](https://ggcjv-pqaaa-aaaad-qanza-cai.ic.fleek.co/).
 
 ##Contributing
 

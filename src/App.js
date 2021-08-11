@@ -440,7 +440,7 @@ class MetaMaskControl extends React.Component {
                         <a className="nav-link active" aria-current="page" href="#">Connected to wallet {walletAddress}</a>
                       </li>
                       <li className="nav-item">
-                        <a className="nav-link" href="https://github.com/0100101001010000/metamask-prices">Source Code</a>
+                        <a className="nav-link" href="https://github.com/0100101001010000/MetaMask-Token-Pricer">Source Code</a>
                       </li>
                     </ul>
                   </div>
