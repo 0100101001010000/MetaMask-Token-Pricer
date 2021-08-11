@@ -14,10 +14,10 @@ It should look something like this:
 
 This will eventually be hosted somewhere.
 
-##Contributing
+## Contributing
 
 Raise an issue to discuss the improvement or bug fix, then a pull request can be raised. More information can be found here
 
-##License
+## License
 
 [MIT](LICENSE)
