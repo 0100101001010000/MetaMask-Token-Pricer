@@ -2,12 +2,12 @@ import './App.css';
 
 import React from 'react';
 import Web3 from "web3";
-// const Web3 = require('web3');
+
 const CoinGecko = require('coingecko-api');
 const CoinGeckoClient = new CoinGecko();
 
 // TODO: put this meta crap somewhere else
-const bsc_contract =
+const bscContract =
     [
       {
         "anonymous": false,
@@ -265,39 +265,121 @@ const bsc_contract =
         "type": "function"
       }
     ];
-function create_token_mapping(token_address, token_decimals) {
+
+function createTokenMapping(tokenAddress, tokenDecimals) {
   return {
-    'address': token_address,
-    'decimals': token_decimals
+    'address': tokenAddress,
+    'decimals': tokenDecimals
   }
 }
 
-const available_tokens = new Map();
-available_tokens.set('CAKE', create_token_mapping('0x0e09fabb73bd3ade0a17ecc321fd13a19e81ce82', 18));
-available_tokens.set('SAFEMOON', create_token_mapping('0x8076c74c5e3f5852037f31ff0093eeb8c8add8d3', 9));
-available_tokens.set('BABYDOGE', create_token_mapping('0xc748673057861a797275CD8A068AbB95A902e8de', 9));
-available_tokens.set('CORGI', create_token_mapping('0x802c68730212295149f2bea78c25e2cf5a05b8a0', 8));
-available_tokens.set('BABYCAKE', create_token_mapping('0xdb8d30b74bf098af214e862c90e647bbb1fcc58c', 18));
-available_tokens.set('CYBRRRDOGE', create_token_mapping('0xecc62bd353EDd64Ed31595DbC4C92801aF1e2af0', 9));
-available_tokens.set('PORNROCKET', create_token_mapping('0xCF9f991b14620f5ad144Eec11f9bc7Bf08987622', 9));
-available_tokens.set('SAFEARN', create_token_mapping('0x099f551eA3cb85707cAc6ac507cBc36C96eC64Ff', 9));
-available_tokens.set('HODL', create_token_mapping('0x5788105375ecf7f675c29e822fd85fcd84d4cd86', 9));
+const availableTokens = new Map();
+availableTokens.set('BNB', createTokenMapping('binancecoin', 18));
+availableTokens.set('CAKE', createTokenMapping('0x0e09fabb73bd3ade0a17ecc321fd13a19e81ce82', 18));
+availableTokens.set('SAFEMOON', createTokenMapping('0x8076c74c5e3f5852037f31ff0093eeb8c8add8d3', 9));
+availableTokens.set('BABYDOGE', createTokenMapping('0xc748673057861a797275CD8A068AbB95A902e8de', 9));
+availableTokens.set('CORGI', createTokenMapping('0x802c68730212295149f2bea78c25e2cf5a05b8a0', 8));
+availableTokens.set('BABYCAKE', createTokenMapping('0xdb8d30b74bf098af214e862c90e647bbb1fcc58c', 18));
+availableTokens.set('CYBRRRDOGE', createTokenMapping('0xecc62bd353EDd64Ed31595DbC4C92801aF1e2af0', 9));
+availableTokens.set('PORNROCKET', createTokenMapping('0xCF9f991b14620f5ad144Eec11f9bc7Bf08987622', 9));
+availableTokens.set('SAFEARN', createTokenMapping('0x099f551eA3cb85707cAc6ac507cBc36C96eC64Ff', 9));
+availableTokens.set('HODL', createTokenMapping('0x5788105375ecf7f675c29e822fd85fcd84d4cd86', 9));
 
-function add_new_token(name, address, decimals) {
-  available_tokens.set(name, create_token_mapping(address, decimals))
+class NewTokenModal extends React.Component {
+  constructor(props) {
+    super(props);
+    this.onSubmit = props.onSubmit;
+    this.handleNameChange = this.handleNameChange.bind(this);
+    this.handleAddressChange = this.handleAddressChange.bind(this);
+    this.handleDecimalsChange = this.handleDecimalsChange.bind(this);
+    this.addNewToken = this.addNewToken.bind(this);
+    this.state = {
+      tokenName: '',
+      tokenAddress: '',
+      tokenDecimals: 0,
+      hideModal: "true"
+    }
+  }
+
+  handleNameChange(e) {
+    this.setState({tokenName: e.target.value})
+  }
+
+  handleAddressChange(e) {
+    this.setState({tokenAddress: e.target.value})
+  }
+
+  handleDecimalsChange(e) {
+    this.setState({tokenDecimals: e.target.value})
+  }
+
+  addNewToken(e) {
+    const tokenName = this.state.tokenName;
+    const tokenAddress = this.state.tokenAddress;
+    const tokenDecimals = parseInt(this.state.tokenDecimals);
+
+    if (!Number.isInteger(tokenDecimals) || tokenName === '' || tokenAddress === '') {
+      alert('Fill in the form somewhat correctly');
+      console.error('Fields missing or decimals not an int...');
+    }
+    else {
+      availableTokens.set(tokenName, createTokenMapping(tokenAddress, tokenDecimals));
+      this.onSubmit()
+    }
+  }
+
+  render() {
+    return (
+        <div className="modal fade" id="newTokenModal" tabIndex="-1" aria-labelledby="newTokenModalLabel" aria-hidden="true">
+          <div className="modal-dialog modal-dialog-centered">
+            <div className="modal-content bg-dark border-light">
+              <div className="modal-header">
+                <h5 className="modal-title" id="newTokenModalLabel">Add New Token</h5>
+                <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div className="modal-body">
+                <p>I'm not checking what you're entering, if you enter nonsense you'll break the page for yourself</p>
+                <form>
+                  <div className="mb-3">
+                    <label className="form-label">Token Name</label>
+                    <input type="text" className="form-control" onChange={this.handleNameChange} aria-describedby="nameHelp"/>
+                    <div id="nameHelp" className="form-text">The name of the token.</div>
+                  </div>
+                  <div className="mb-3">
+                    <label className="form-label">Token Address</label>
+                    <input type="text" className="form-control" onChange={this.handleAddressChange} aria-describedby="addressHelp"/>
+                    <div id="addressHelp" className="form-text">The contract address of the token.</div>
+                  </div>
+                  <div className="mb-3">
+                    <label className="form-label">Number of Decimals</label>
+                    <input type="text" className="form-control" onChange={this.handleDecimalsChange} aria-describedby="decimalsHelp"/>
+                    <div id="decimalsHelp" className="form-text">The number of decimals for the token.</div>
+                  </div>
+                </form>
+              </div>
+              <div className="modal-footer">
+                <button type="button" className="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" className="btn btn-outline-light" onClick={this.addNewToken} data-bs-dismiss="modal">Save New Token</button>
+              </div>
+            </div>
+          </div>
+        </div>
+    )
+  }
 }
+
 
 function CryptoCard(props) {
   const name = props.name;
-  const token_amount = props.token_amount;
-  const fiat_amount = props.usd_amount;
+  const tokenAmount = props.tokenAmount;
+  const fiatAmount = props.usdAmount;
   return (
       <div className="col">
         <div className="card text-white bg-dark border-light mb-3">
           <div className="card-header border-light">{name}</div>
           <div className="card-body border-light">
-            <p>{token_amount}</p>
-            <p>${fiat_amount}</p>
+            <p>{tokenAmount}</p>
+            <p>${fiatAmount}</p>
           </div>
         </div>
       </div>
@@ -307,41 +389,75 @@ function CryptoCard(props) {
 class TokenPrices extends React.Component {
   constructor(props) {
     super(props);
-    this.get_prices = this.get_prices.bind(this);
+    this.testsubmit= this.testsubmit.bind(this);
+    this.getPrices = this.getPrices.bind(this);
     this.walletAddress = props.walletAddress;
     this.state = {
       totalBalance: 0,
       tokenBalance: [],
-      disableButton: true
+      disableButton: true,
     }
   }
 
   componentDidMount() {
-    this.get_prices();
+    this.getPrices();
   }
 
-  async get_prices() {
+  async getPrices() {
     this.setState({disableButton: true})
     const web3 = new Web3('https://bsc-dataseed1.binance.org:443');
+
     let total = 0;
     const tokenPriceBalance = [];
-    for (let token of available_tokens) {
-      let token_contract = new web3.eth.Contract(bsc_contract, token[1]['address']);
-      let tokenBalance = await token_contract.methods.balanceOf(this.walletAddress).call();
-      let total_count = tokenBalance.length;
-      let balance_integrals = tokenBalance.substr(0,total_count - token[1]['decimals']);
-      let balance_decimals = tokenBalance.substr(total_count - token[1]['decimals']);
-      let formatted_balance = balance_integrals.concat(".", balance_decimals)
-      // TODO: Bulk call...
-      let price = await CoinGeckoClient.simple.fetchTokenPrice({
-        contract_addresses: token[1]['address'],
-        vs_currencies: 'usd',
-      }, 'binance-smart-chain');
-      let token_price = price['data'][token[1]['address'].toLowerCase()]['usd'];
-      let token_balance = token_price * formatted_balance
-      tokenPriceBalance.push(<CryptoCard key={token[0]} name={token[0]} token_amount={formatted_balance} usd_amount={token_balance} />)
-      total += token_balance;
+
+    let coinPrice = await CoinGeckoClient.simple.price({
+      ids: 'binancecoin',
+      vs_currencies: 'usd',
+    });
+
+    // TODO: Must be a better way to do this than looping twice...
+    let tokenAddresses = [];
+    for (let token of availableTokens) {
+      tokenAddresses.push(token[1]['address'])
     }
+
+    let tokenPrices = await CoinGeckoClient.simple.fetchTokenPrice({
+      contract_addresses: tokenAddresses,
+      vs_currencies: 'usd',
+    }, 'binance-smart-chain');
+
+    for (let token of availableTokens) {
+      let decimalCount = token[1]['decimals'];
+      let tokenAddress = token[1]['address'].toLowerCase();
+      let tokenBalance;
+      let tokenPrice;
+      if (token[0] === 'BNB') {
+        tokenBalance = await web3.eth.getBalance(this.walletAddress);
+        tokenPrice = coinPrice['data'][tokenAddress]['usd'];
+      }
+      else {
+        let token_contract = new web3.eth.Contract(bscContract, tokenAddress);
+        tokenBalance = await token_contract.methods.balanceOf(this.walletAddress).call();
+        tokenPrice = tokenPrices['data'][tokenAddress]['usd'];
+      }
+      let totalCount = tokenBalance.length;
+
+      if (totalCount < decimalCount) {
+        tokenBalance = tokenBalance.padStart(decimalCount + 1, '0');
+        totalCount = tokenBalance.length;
+      }
+
+      let balanceIntegrals = tokenBalance.substr(0, totalCount - decimalCount);
+      let balanceDecimals = tokenBalance.substr(totalCount - decimalCount);
+      let formattedBalance = balanceIntegrals.concat(".", balanceDecimals)
+
+      let fiatBalance = tokenPrice * formattedBalance;
+
+      tokenPriceBalance.push(<CryptoCard key={token[0]} name={token[0]} tokenAmount={formattedBalance}
+                                         usdAmount={fiatBalance}/>)
+      total += fiatBalance;
+    }
+
     this.setState({
       totalBalance: total,
       tokenBalance: tokenPriceBalance,
@@ -349,23 +465,32 @@ class TokenPrices extends React.Component {
     });
   }
 
+  testsubmit(e) {
+    console.log('submitted...')
+  }
+
   render() {
     const total = this.state.totalBalance;
     const tokenBalance = this.state.tokenBalance;
     const disableButton = this.state.disableButton;
-    // Add some animation to the loading text
     let button;
     if (disableButton) {
-      button = <p className="lead text-muted">Loading prices...</p>
+      button =
+          <button className="btn btn-lg btn-outline-light" disabled>
+            <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            Loading prices...
+          </button>
     }
     else {
-      button = <button className="btn btn-lg btn-outline-light" onClick={this.get_prices}>Get latest prices</button>
+      button = <button className="btn btn-lg btn-outline-light" onClick={this.getPrices}>Get latest prices</button>
     }
     return (
         <div className="px-3">
           <div className="py-5 text-center container">
             <h1>Total Wallet Value: ${total}</h1>
             {button}
+            <button className="btn btn-lg btn-outline-light" data-bs-toggle="modal" data-bs-target="#newTokenModal">Add token</button>
+            <NewTokenModal onSubmit={this.getPrices}/>
           </div>
           <div className="container">
             <div className="row">{tokenBalance}</div>
@@ -392,7 +517,8 @@ class MetaMaskControl extends React.Component {
 
   componentDidMount() {
     this.getWalletAddress().then(result => this.setState({
-      walletAddress: result
+      walletAddress: result,
+      isConnected: true
     }))
   }
 
@@ -421,31 +547,12 @@ class MetaMaskControl extends React.Component {
   render() {
     const isInstalled = this.state.isInstalled;
     const isConnected = this.state.isConnected;
-    const walletAddress = this.state.walletAddress
+    const walletAddress = this.state.walletAddress;
     let metamask;
     if (isInstalled) {
       if (isConnected) {
         metamask =
             <div>
-              <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-                <div className="container-fluid">
-                  <a className="navbar-brand" href="#">MetaMask Token Pricer</a>
-                  <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                          aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span className="navbar-toggler-icon"></span>
-                  </button>
-                  <div className="collapse navbar-collapse" id="navbarNav">
-                    <ul className="navbar-nav">
-                      <li className="nav-item">
-                        <a className="nav-link active" aria-current="page" href="#">Connected to wallet {walletAddress}</a>
-                      </li>
-                      <li className="nav-item">
-                        <a className="nav-link" href="https://github.com/0100101001010000/MetaMask-Token-Pricer">Source Code</a>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </nav>
               <TokenPrices walletAddress={walletAddress} />
             </div>
       } else {
@@ -462,6 +569,25 @@ class MetaMaskControl extends React.Component {
 
     return (
         <div>
+          <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div className="container-fluid">
+              <span className="navbar-brand mb-0 h1">MetaMask Token Pricer</span>
+              <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span className="navbar-toggler-icon"></span>
+              </button>
+              <div className="collapse navbar-collapse" id="navbarNav">
+                <ul className="navbar-nav">
+                  <li className="nav-item">
+                    <span className="nav-link active" aria-current="page" >Connected to wallet {walletAddress}</span>
+                  </li>
+                  <li className="nav-item">
+                    <a className="nav-link" href="https://github.com/0100101001010000/MetaMask-Token-Pricer">Source Code</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </nav>
           {metamask}
         </div>
     )
