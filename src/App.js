@@ -500,26 +500,16 @@ class TokenPrices extends React.Component {
   }
 }
 
-
 class MetaMaskControl extends React.Component {
   constructor(props) {
     super(props);
     this.isMetaMaskInstalled = this.isMetaMaskInstalled.bind(this);
     this.connectMetaMask = this.connectMetaMask.bind(this);
-    this.getWalletAddress = this.getWalletAddress.bind(this);
-
     this.state = {
       isInstalled: this.isMetaMaskInstalled(),
-      isConnected: false,
+      isMetaMaskConnected: false,
       walletAddress: ''
     };
-  }
-
-  componentDidMount() {
-    this.getWalletAddress().then(result => this.setState({
-      walletAddress: result,
-      isConnected: true
-    }))
   }
 
 // TODO: put ethereum up a level and rename
@@ -529,25 +519,25 @@ class MetaMaskControl extends React.Component {
   }
 
   async connectMetaMask() {
+    let address;
     try {
       const {ethereum} = window;
-      await ethereum.request({method: 'eth_requestAccounts'});
+      const accounts = await ethereum.request({method: 'eth_accounts'});
+      address = accounts[0];
     } catch (error) {
       console.error(error);
     }
-    this.setState({isConnected: true});
-  }
-
-  async getWalletAddress() {
-    const {ethereum} = window;
-    const accounts = await ethereum.request({method: 'eth_accounts'});
-    return accounts[0];
+    this.setState({
+        isMetaMaskConnected: true,
+        walletAddress: address
+    });
   }
 
   render() {
     const isInstalled = this.state.isInstalled;
-    const isConnected = this.state.isConnected;
+    const isConnected = this.state.isMetaMaskConnected;
     const walletAddress = this.state.walletAddress;
+    const greeting = isConnected ? 'Connected to wallet: '+walletAddress : 'Please conntect your wallet'
     let metamask;
     if (isInstalled) {
       if (isConnected) {
@@ -579,7 +569,7 @@ class MetaMaskControl extends React.Component {
               <div className="collapse navbar-collapse" id="navbarNav">
                 <ul className="navbar-nav">
                   <li className="nav-item">
-                    <span className="nav-link active" aria-current="page" >Connected to wallet {walletAddress}</span>
+                    <span className="nav-link active" aria-current="page" >{greeting}</span>
                   </li>
                   <li className="nav-item">
                     <a className="nav-link" href="https://github.com/0100101001010000/MetaMask-Token-Pricer">Source Code</a>

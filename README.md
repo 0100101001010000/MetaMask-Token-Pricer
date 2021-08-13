@@ -8,11 +8,11 @@ to fetch tokens from the MetaMask wallet and token prices from CoinGecko.
 To run the app locally: `yarn start`
 
 It should look something like this:
-![screenshot.png](screenshot.png)
-(The above is not in anyway an endorsement, do your own research before investing)
+![img.png](img.png)
+(The above is not in any way an endorsement, do your own research before investing)
 
 
-Currently hoster [here](https://ggcjv-pqaaa-aaaad-qanza-cai.ic.fleek.co/).
+Currently hosted [here](https://ggcjv-pqaaa-aaaad-qanza-cai.ic.fleek.co/).
 
 ## Contributing
 
