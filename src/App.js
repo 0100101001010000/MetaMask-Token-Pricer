@@ -451,10 +451,11 @@ class TokenPrices extends React.Component {
       let balanceDecimals = tokenBalance.substr(totalCount - decimalCount);
       let formattedBalance = balanceIntegrals.concat(".", balanceDecimals)
 
-      let fiatBalance = tokenPrice * formattedBalance;
+      let fiatBalance = (tokenPrice * formattedBalance);
 
       tokenPriceBalance.push(<CryptoCard key={token[0]} name={token[0]} tokenAmount={formattedBalance}
-                                         usdAmount={fiatBalance}/>)
+                                         usdAmount={fiatBalance.toFixed(2)}/>)
+
       total += fiatBalance;
     }
 
@@ -487,7 +488,7 @@ class TokenPrices extends React.Component {
     return (
         <div className="px-3">
           <div className="py-5 text-center container">
-            <h1>Total Wallet Value: ${total}</h1>
+            <h1>Total Wallet Value: ${total.toFixed(2)}</h1>
             {button}
             <button className="btn btn-lg btn-outline-light" data-bs-toggle="modal" data-bs-target="#newTokenModal">Add token</button>
             <NewTokenModal onSubmit={this.getPrices}/>
@@ -571,14 +572,27 @@ class MetaMaskControl extends React.Component {
                   <li className="nav-item">
                     <span className="nav-link active" aria-current="page" >{greeting}</span>
                   </li>
-                  <li className="nav-item">
-                    <a className="nav-link" href="https://github.com/0100101001010000/MetaMask-Token-Pricer">Source Code</a>
-                  </li>
                 </ul>
               </div>
             </div>
           </nav>
           {metamask}
+          <nav className="navbar fixed-bottom navbar-expand-lg navbar-dark bg-dark">
+            <div className="container-fluid">
+              <a className="navbar-brand" href="https://github.com/0100101001010000/MetaMask-Token-Pricer">Source Code</a>
+              <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavBottom"
+                      aria-controls="navbarNavBottom" aria-expanded="false" aria-label="Toggle navigation">
+                <span className="navbar-toggler-icon"></span>
+              </button>
+              <div className="collapse navbar-collapse" id="navbarNavBottom">
+                <ul className="navbar-nav">
+                  <li className="nav-item">
+                    <span className="nav-link active" aria-current="page" >Donations welcome: ETH/BNB: 0xd4a715d0b7fd86bE466450C932b1f7C16e726B8D</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </nav>
         </div>
     )
   }
