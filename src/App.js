@@ -523,7 +523,9 @@ class MetaMaskControl extends React.Component {
     let address;
     try {
       const {ethereum} = window;
-      const accounts = await ethereum.request({method: 'eth_accounts'});
+      const eth_accounts = await ethereum.request({method: 'eth_requestAccounts'});
+      console.log(eth_accounts);
+      const accounts = await ethereum.request({ method: 'eth_accounts' });
       address = accounts[0];
     } catch (error) {
       console.error(error);
