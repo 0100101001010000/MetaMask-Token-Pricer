@@ -18,6 +18,8 @@ Currently hosted [here](https://ggcjv-pqaaa-aaaad-qanza-cai.ic.fleek.co/).
 
 Raise an issue to discuss the improvement or bug fix, then a pull request can be raised. More information can be found here
 
+Don't know where to start? Check out the [TODO list](TODO.md)
+
 ## License
 
 [MIT](LICENSE)

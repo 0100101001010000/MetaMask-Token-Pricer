@@ -284,6 +284,11 @@ availableTokens.set('CYBRRRDOGE', createTokenMapping('0xecc62bd353EDd64Ed31595Db
 availableTokens.set('PORNROCKET', createTokenMapping('0xCF9f991b14620f5ad144Eec11f9bc7Bf08987622', 9));
 availableTokens.set('SAFEARN', createTokenMapping('0x099f551eA3cb85707cAc6ac507cBc36C96eC64Ff', 9));
 availableTokens.set('HODL', createTokenMapping('0x5788105375ecf7f675c29e822fd85fcd84d4cd86', 9));
+availableTokens.set('BABYBNB', createTokenMapping('0xc1168b7b85b2bbc8a5c73c007b74e7523b2da209', 9));
+availableTokens.set('BABYETH', createTokenMapping('0xaffbf5d4693c93f23c35a08e31439ea53d952351', 18));
+availableTokens.set('ETH', createTokenMapping('0x2170ed0880ac9a755fd29b2688956bd959f933f8', 18));
+availableTokens.set('TUSD', createTokenMapping('0x14016e85a25aeb13065688cafb43044c2ef86784', 18));
+availableTokens.set('BABYUSDT', createTokenMapping('0x8dc1942e2089e711725eda66ab06650035475441', 18));
 
 class NewTokenModal extends React.Component {
   constructor(props) {
