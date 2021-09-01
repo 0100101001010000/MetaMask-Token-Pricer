@@ -289,6 +289,7 @@ availableTokens.set('BABYETH', createTokenMapping('0xaffbf5d4693c93f23c35a08e314
 availableTokens.set('ETH', createTokenMapping('0x2170ed0880ac9a755fd29b2688956bd959f933f8', 18));
 availableTokens.set('TUSD', createTokenMapping('0x14016e85a25aeb13065688cafb43044c2ef86784', 18));
 availableTokens.set('BABYUSDT', createTokenMapping('0x8dc1942e2089e711725eda66ab06650035475441', 18));
+availableTokens.set('USDT', createTokenMapping('0x55d398326f99059ff775485246999027b3197955', 18));
 
 class NewTokenModal extends React.Component {
   constructor(props) {
