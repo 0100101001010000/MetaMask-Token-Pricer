@@ -9,7 +9,7 @@ To run the app locally: `yarn start`
 
 It should look something like this:
 ![img.png](img.png)
-(The above is not in any way an endorsement, do your own research before investing)
+_(The above is not in any way an endorsement, do your own research before investing)_
 
 
 Currently hosted [here](https://ggcjv-pqaaa-aaaad-qanza-cai.ic.fleek.co/).
