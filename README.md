@@ -14,6 +14,27 @@ _(The above is not in any way an endorsement, do your own research before invest
 
 Currently hosted [here](https://ggcjv-pqaaa-aaaad-qanza-cai.ic.fleek.co/).
 
+### Currently Supported Tokens
+* BNB
+* CAKE
+* SAFEMOON
+* BABYDOGE
+* CORGI
+* BABYCAKE
+* CYBRRRDOGE
+* PORNROCKET
+* SAFEARN
+* HODL
+* BABYBNB
+* BABYETH
+* ETH (Binance Pegged)
+* TUSD
+* BABYUSDT
+* USDT (Binance Pegged)
+
+If you would like to add a token raise an issue with the token you would like added.
+(Sending me a bit of that token will definitely help speed things up *cough* *cough*)
+
 ## Contributing
 
 Raise an issue to discuss the improvement or bug fix, then a pull request can be raised. More information can be found here
